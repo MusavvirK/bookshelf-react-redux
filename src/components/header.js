@@ -6,13 +6,12 @@ import { verifyJwt, signoutUser } from "../actions";
 class Header extends Component {
 	componentWillMount() {
 		if (this.props.authenticated && !this.props.user) {
-			this.props.verifyJwt(); // fetch username
+			this.props.verifyJwt();
 		}
 	}
 
 	renderLinks() {
 		if (this.props.authenticated) {
-			// show a dropdown menu for authenticated user
 			return (
 				<div className="navbar-nav nav-item dropdown ml-auto">
 					<a
@@ -44,7 +43,6 @@ class Header extends Component {
 				</div>
 			);
 		} else {
-			// show a link to sign in or sign up
 			return (
 				<ul className="navbar-nav">
 					<li className="nav-item" key={1}>
@@ -99,7 +97,7 @@ class Header extends Component {
 									className="nav-link"
 									target="_blank"
 									rel="noopener noreferrer"
-									href="https://github.com/MusavvirK/"
+									href="https://github.com/MusavvirK/bookshelf-react-redux"
 								>
 									GitHub
 								</a>

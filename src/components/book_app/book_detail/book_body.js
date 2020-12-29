@@ -14,7 +14,6 @@ class BookBody extends Component {
 	render() {
 		const { book } = this.props;
 
-		// for displaying inner html: https://facebook.github.io/react/docs/dom-elements.html
 		return (
 			<div>
 				<h3>{book.title}</h3>

@@ -45,10 +45,12 @@ class BookList extends Component {
 	}
 
 	render() {
-		// console.log(this.props.books);
 		return (
 			<div className="post">
-				<Link className="btn btn-primary mb-5" to={"/posts/new"}>
+				<Link
+					className="btn btn-primary mb-5 button-pad"
+					to={"/posts/new"}
+				>
 					Add Book
 				</Link>
 				{_.map(this.props.books, (book) => {

@@ -11,26 +11,21 @@ class BookDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// component state: being read or being edited
 			beingEdit: false,
 		};
 	}
 
 	componentDidMount() {
-		// By default, we set beingEdit as false (Since when the user first click the book, the book detail is read, rather than edited)
 		this.setState({
 			beingEdit: false,
 		});
 
-		// Get book id
 		const { id } = this.props.match.params;
 
-		// Fetch book detail
 		if (!this.props.book) {
 			this.props.fetchBook(id);
 		}
 
-		// Check whether current authenticated user has authority to make change to this book
 		this.props.checkAuthority(id);
 	}
 
@@ -54,7 +49,6 @@ class BookDetail extends Component {
 	}
 
 	renderDeleteConfirmModal() {
-		// used for delete confirmation
 		return (
 			<div
 				className="modal fade"
@@ -135,12 +129,10 @@ class BookDetail extends Component {
 	}
 
 	render() {
-		// If there is no book match the given book ID, render NoMatch page
 		if (!this.props.book) {
 			return <NoMatch />;
 		}
 
-		// If the component state 'beingEdit' is true, we render the book edit page
 		if (this.state.beingEdit) {
 			return (
 				<BookEdit
@@ -153,7 +145,6 @@ class BookDetail extends Component {
 			);
 		}
 
-		// Render the regular book detail page for reading
 		return (
 			<div className="post">
 				<BookBody book={this.props.book} />

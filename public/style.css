@@ -58,9 +58,9 @@ body {
 }
 
 .post {
-	max-width: 800px;
+	max-width: 1024px;
 	padding: 19px 29px 29px;
-	margin: 0 auto 20px;
+	margin: 60px auto 20px;
 }
 
 .f6 {
@@ -69,4 +69,8 @@ body {
 
 .text-grey {
 	color: #9199a1 !important;
+}
+
+.button-pad {
+	margin-bottom: 5px;
 }

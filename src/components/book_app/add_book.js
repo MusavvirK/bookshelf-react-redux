@@ -5,9 +5,6 @@ import { createBook } from "../../actions";
 
 class AddBook extends Component {
 	handleFormSubmit({ title, author, genre, publisher }) {
-		// console.log(title);
-		// console.log(categories);
-		// console.log(content);
 		this.props.createBook(
 			{ title, author, genre, publisher },
 			(path) => {
@@ -99,7 +96,7 @@ class AddBook extends Component {
 }
 
 AddBook = reduxForm({
-	form: "add_book", // name of the form
+	form: "add_book",
 })(AddBook);
 
 export default connect(null, { createBook })(AddBook);

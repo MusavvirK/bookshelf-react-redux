@@ -6,13 +6,11 @@ import { fetchProfile } from "../../actions/index";
 class Profile extends Component {
 	componentDidMount() {
 		if (!this.props.initialValues) {
-			this.props.fetchProfile(); // fetch profile
+			this.props.fetchProfile();
 		}
 	}
 
-	componentWillUnmount() {
-		//this.props.clearProfile();  // clear the redux state (userinfo) when this component will unmount
-	}
+	componentWillUnmount() {}
 
 	handleFormSubmit({ firstName, lastName }) {
 		console.log("feature not supported still");
@@ -59,7 +57,6 @@ class Profile extends Component {
 
 	render() {
 		if (!this.props.initialValues) {
-			// if the initialValues is null, render <div>Loading...</div>
 			return <div>Loading...</div>;
 		}
 

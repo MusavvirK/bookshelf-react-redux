@@ -6,7 +6,7 @@ import profileReducer from "./profile_reducer";
 import booksReducer from "./books_reducer";
 
 const rootReducer = combineReducers({
-	form: formReducer, // the form property of state is going to be produced by ReduxForm reducer
+	form: formReducer,
 	auth: authReducer,
 	profile: profileReducer,
 	books: booksReducer,

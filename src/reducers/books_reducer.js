@@ -8,8 +8,7 @@ import {
 } from "../actions/types";
 
 export default function (state = {}, action) {
-	// Attention!!! The state object here refers to state.books, instead of the application state.
-
+	// book state
 	switch (action.type) {
 		case FETCH_BOOKS:
 			return _.mapKeys(action.payload, "_id");

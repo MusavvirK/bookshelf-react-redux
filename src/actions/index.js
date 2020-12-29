@@ -14,36 +14,21 @@ import {
 
 const ROOT_URL = "https://bookshelf-node-express-api.herokuapp.com/api";
 
-/**
- * Authentication
- */
-
 export function signinUser({ email, password }, historyPush, historyReplace) {
-	// Using redux-thunk (instead of returning an object, return a function)
-	// All redux-thunk doing is giving us arbitrary access to the dispatch function, and allow us to dispatch our own actions at any time we want
 	return function (dispatch) {
-		// Submit email/password to the server
 		axios
-			.post(`${ROOT_URL}/signin`, { email, password }) // axios returns a promise
+			.post(`${ROOT_URL}/signin`, { email, password })
 			.then((response) => {
-				// If request is good (sign in succeeded) ...
-
-				// - Save the JWT token (use local storage)
 				localStorage.setItem("token", response.data.token);
 
-				// - Update state to indicate user is authenticated
 				dispatch({
 					type: AUTH_USER,
 					payload: response.data.username,
 				});
 
-				// - Redirect (PUSH) to the route '/books'
 				historyPush("/posts");
 			})
 			.catch(() => {
-				// If request is bad (sign in failed) ...
-
-				// - Redirect (REPLACE) to the route '/signin', then show an error to the user
 				historyReplace("/signin", {
 					time: new Date().toLocaleString(),
 					message: "The email and/or password are incorrect.",
@@ -64,20 +49,14 @@ export function signupUser(
 				password,
 				firstName,
 				lastName,
-			}) // axios returns a promise
+			})
 			.then((response) => {
-				// If request is good (sign up succeeded) ...
-
-				// - Redirect (PUSH) to the route '/signin', then show a success message to the user
 				historyPush("/signin", {
 					time: new Date().toLocaleString(),
 					message: response.data.message,
 				});
 			})
 			.catch(({ response }) => {
-				// If request is bad (sign up failed) ...
-
-				// - Redirect (REPLACE) to the route '/signup', then show an error to the user
 				historyReplace("/signup", {
 					time: new Date().toLocaleString(),
 					message: response.data.message,
@@ -87,10 +66,8 @@ export function signupUser(
 }
 
 export function signoutUser() {
-	// - Delete the JWT token from local storage
 	localStorage.removeItem("token");
 
-	// - Update state to indicate the user is not authenticated
 	return { type: UNAUTH_USER };
 }
 
@@ -109,10 +86,6 @@ export function verifyJwt() {
 	};
 }
 
-/**
- * User information
- */
-
 export function fetchProfile() {
 	return function (dispatch) {
 		axios
@@ -127,10 +100,6 @@ export function fetchProfile() {
 			});
 	};
 }
-
-/**
- * Books API
- */
 
 export function fetchBooks() {
 	return function (dispatch) {
@@ -163,7 +132,6 @@ export function createBook(
 				}
 			)
 			.then((response) => {
-				// If create book succeed, navigate to the book detail page
 				dispatch({
 					type: CREATE_BOOK,
 					payload: response.data,
@@ -171,7 +139,6 @@ export function createBook(
 				historyPush(`/posts`);
 			})
 			.catch(({ response }) => {
-				// If create book failed, alert failure message
 				historyReplace("/posts/new", {
 					time: new Date().toLocaleString(),
 					message: response.data.message,
@@ -209,7 +176,7 @@ export function updateBook(
 					publisher,
 				},
 				{
-					headers: { authorization: localStorage.getItem("token") }, // require auth
+					headers: { authorization: localStorage.getItem("token") },
 				}
 			)
 			.then((response) => {
@@ -217,7 +184,7 @@ export function updateBook(
 					type: UPDATE_BOOK,
 					payload: response.data,
 				});
-				onEditSuccess(); // set beingEdit to false
+				onEditSuccess();
 				historyReplace(`/posts/${_id}`, null);
 			})
 			.catch(({ response }) => {
@@ -233,7 +200,7 @@ export function deleteBook(id, historyPush) {
 	return function (dispatch) {
 		axios
 			.delete(`${ROOT_URL}/posts/${id}`, {
-				headers: { authorization: localStorage.getItem("token") }, // require auth
+				headers: { authorization: localStorage.getItem("token") },
 			})
 			.then((response) => {
 				dispatch({
@@ -249,7 +216,7 @@ export function fetchBooksByUserId() {
 	return function (dispatch) {
 		axios
 			.get(`${ROOT_URL}/my_posts`, {
-				headers: { authorization: localStorage.getItem("token") }, // require auth
+				headers: { authorization: localStorage.getItem("token") },
 			})
 			.then((response) => {
 				dispatch({
@@ -260,14 +227,11 @@ export function fetchBooksByUserId() {
 	};
 }
 
-/**
- * Check authority: Check if the user has the authority to make change to a specific book
- */
 export function checkAuthority(bookId) {
 	return function (dispatch) {
 		axios
 			.get(`${ROOT_URL}/allow_edit_or_delete/${bookId}`, {
-				headers: { authorization: localStorage.getItem("token") }, // require auth
+				headers: { authorization: localStorage.getItem("token") },
 			})
 			.then((response) => {
 				dispatch({
@@ -276,7 +240,6 @@ export function checkAuthority(bookId) {
 				});
 			})
 			.catch(() => {
-				// If an user is un-authorized, he/she cannot make change to any books
 				dispatch({
 					type: CHECK_AUTHORITY,
 					payload: false,
